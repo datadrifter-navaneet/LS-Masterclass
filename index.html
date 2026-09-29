@@ -154,10 +154,7 @@ a { color: inherit; text-decoration: none; }
   0% { transform: translateX(0); }
   100% { transform: translateX(158px); }
 }
-.intro-overlay.intro-play .intro-stumps {
-  animation: intro-wobble 0.6s ease-out 0.78s;
-  transform-origin: bottom center;
-}
+.intro-stumps { transform-origin: bottom center; }
 @keyframes intro-wobble {
   0% { transform: rotate(0deg); }
   20% { transform: rotate(-7deg); }
@@ -186,6 +183,15 @@ a { color: inherit; text-decoration: none; }
 }
 .intro-overlay.intro-play .intro-logo-wrap {
   animation: intro-logo-in 0.7s cubic-bezier(.2,.8,.3,1.2) 1.35s forwards;
+}
+/* Hide the cricket stumps before the logo begins its pop-in,
+   so the reveal reads as one clean transition. */
+.intro-overlay.intro-play .intro-stumps {
+  animation: intro-wobble 0.6s ease-out 0.78s, intro-stumps-hide 0.18s ease 1.20s forwards;
+}
+@keyframes intro-stumps-hide {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 @keyframes intro-logo-in {
   0% { opacity: 0; transform: scale(0.8); }
