@@ -1281,8 +1281,8 @@ function initScrollReveal() {
 }
 
 /* ---------------------------------------------------------
-   Enquiry modal + direct send (FormSubmit)
-   Posts the form to FormSubmit, which emails it straight to the inbox.
+   Enquiry modal + direct send (Web3Forms)
+   Posts the form to Web3Forms, which emails it straight to the inbox.
 --------------------------------------------------------- */
 function initEnquiryModal() {
   const overlay = document.getElementById("modalOverlay");
@@ -1291,7 +1291,9 @@ function initEnquiryModal() {
   const form = document.getElementById("enquiryForm");
   const errorEl = document.getElementById("formError");
 
-  const ENQUIRY_EMAIL = "connectsvn@gmail.com";
+  // Get a free access key at https://web3forms.com (enter connectsvn@gmail.com),
+  // then paste it below. The key is emailed to that address.
+  const WEB3FORMS_KEY = "PASTE_YOUR_ACCESS_KEY_HERE";
 
   function openModal() {
     overlay.classList.add("open");
@@ -1353,30 +1355,30 @@ function initEnquiryModal() {
     };
 
     try {
+      if (WEB3FORMS_KEY.startsWith("PASTE_")) throw new Error("access key not set");
       // Sends the enquiry straight to the inbox with the subject "Enquiry".
-      const res = await fetch(`https://formsubmit.co/ajax/${ENQUIRY_EMAIL}`, {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({
-          "Name": name,
-          "Phone": phone,
-          "Email": email,
-          "Message": message,
-          _subject: "Enquiry",
-          _replyto: email,
-          _template: "table",
-          _captcha: "false"
+          access_key: WEB3FORMS_KEY,
+          subject: "Enquiry",
+          from_name: "LS Masterclass Website",
+          name: name,
+          phone: phone,
+          email: email,
+          message: message
         })
       });
-      const data = await res.json();
-      console.log("FormSubmit response:", data);
-      if (!res.ok || String(data.success) !== "true") throw new Error("send failed");
+      const data = await res.json().catch(() => ({}));
+      console.log("Web3Forms response:", res.status, data);
+      if (!res.ok || data.success !== true) throw new Error(data.message || ("HTTP " + res.status));
       finish("Thank you! Your enquiry has been sent.");
     } catch (err) {
       // No mail-app popup: show an error and let the visitor retry.
       console.error("Enquiry send failed:", err);
       errorEl.style.color = "";
-      errorEl.textContent = "Sorry, your enquiry could not be sent. Please try again in a moment.";
+      errorEl.textContent = "Sorry, your enquiry could not be sent. (" + (err && err.message ? err.message : "network error") + ")";
       submitBtn.disabled = false;
       submitBtn.textContent = "Send Enquiry";
     }
