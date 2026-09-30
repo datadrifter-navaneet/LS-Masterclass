@@ -1281,9 +1281,8 @@ function initScrollReveal() {
 }
 
 /* ---------------------------------------------------------
-   Enquiry modal + mailto-based submission
-   No backend: builds a mailto: link from the form fields and
-   opens the visitor's own email client with everything filled in.
+   Enquiry modal + direct send (FormSubmit)
+   Posts the form to FormSubmit, which emails it straight to the inbox.
 --------------------------------------------------------- */
 function initEnquiryModal() {
   const overlay = document.getElementById("modalOverlay");
@@ -1370,18 +1369,16 @@ function initEnquiryModal() {
         })
       });
       const data = await res.json();
+      console.log("FormSubmit response:", data);
       if (!res.ok || String(data.success) !== "true") throw new Error("send failed");
       finish("Thank you! Your enquiry has been sent.");
     } catch (err) {
-      // Fallback: open the visitor's email app with the enquiry pre-filled.
-      const body =
-        `Name: ${name}\n` +
-        `Phone: ${phone}\n` +
-        `Email: ${email}\n\n` +
-        `Message:\n${message}`;
-      window.location.href =
-        `mailto:${ENQUIRY_EMAIL}?subject=${encodeURIComponent("Enquiry")}&body=${encodeURIComponent(body)}`;
-      finish("Opening your email app with the enquiry ready to send...");
+      // No mail-app popup: show an error and let the visitor retry.
+      console.error("Enquiry send failed:", err);
+      errorEl.style.color = "";
+      errorEl.textContent = "Sorry, your enquiry could not be sent. Please try again in a moment.";
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send Enquiry";
     }
   });
 }
