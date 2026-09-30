@@ -119,13 +119,15 @@ a { color: inherit; text-decoration: none; }
 .btn-block { width: 100%; }
 
 /* =========================================================
-   INTRO SPLASH — ball wobbles the stumps, logo reveals
+   INTRO SPLASH — ball bounces in, smashes the stumps, logo reveals
+   Timeline: 0-1.05s ball travels + bounces, 1.05s impact,
+   1.05-1.9s stumps fall / bails fly, 2.05s logo pops in.
 ========================================================= */
 .intro-overlay {
   position: fixed;
   inset: 0;
   z-index: 2000;
-  background: var(--navy-950);
+  background: radial-gradient(ellipse at center, #14203a 0%, var(--navy-950) 70%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -139,46 +141,108 @@ a { color: inherit; text-decoration: none; }
 }
 .intro-stage {
   position: relative;
-  width: min(70vw, 320px);
+  width: min(94vw, 720px);
   aspect-ratio: 3 / 2;
 }
 .intro-svg { width: 100%; height: 100%; overflow: visible; }
-.intro-stump { fill: var(--gold-500); }
-.intro-bail { fill: var(--gold-400); transform-origin: center; }
-.intro-ball { fill: var(--ivory); }
 
-.intro-overlay.intro-play .intro-ball {
+/* SVG parts that rotate/scale must pivot on their own box, not the viewBox */
+.intro-svg .pv { transform-box: fill-box; transform-origin: center; }
+.intro-stump, .intro-bail { transform-box: fill-box; }
+.intro-stump { fill: var(--gold-500); transform-origin: 50% 100%; }
+.intro-bail { fill: var(--gold-300); transform-origin: center; }
+.intro-ground { stroke: var(--gold-400); stroke-width: 1.5; opacity: 0.45; }
+.intro-ball { fill: #c0392b; }
+.intro-ball-shine { fill: rgba(255,255,255,0.28); }
+.intro-seam { fill: none; stroke: var(--ivory); stroke-width: 1.3; stroke-dasharray: 2.2 1.8; stroke-linecap: round; }
+.intro-ghost { fill: #e0574a; }
+.intro-ring { fill: none; stroke: var(--gold-300); stroke-width: 2.5; vector-effect: non-scaling-stroke; opacity: 0; }
+.intro-flash { fill: var(--gold-400); opacity: 0; }
+.intro-spark { fill: var(--gold-300); opacity: 0; }
+.intro-dust { fill: none; stroke: var(--ivory-dim); stroke-width: 1.4; opacity: 0; }
+
+/* ---- Ball: drops in, bounces, hits leg stump, rebounds and fades ---- */
+.intro-ball-g { transform: translate(10px, 30px); }
+.intro-overlay.intro-play .intro-ball-g {
   animation:
-    intro-ball-roll 0.85s cubic-bezier(.4,0,.2,1) forwards,
-    intro-ball-hide 0.25s ease 0.95s forwards;
+    intro-ball-path 1.7s linear both,
+    intro-ball-fade 0.3s ease 1.5s forwards;
 }
-@keyframes intro-ball-roll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(158px); }
+.intro-overlay.intro-play .intro-ghost-1 { animation-delay: 0.05s, 1.5s; }
+.intro-overlay.intro-play .intro-ghost-2 { animation-delay: 0.10s, 1.5s; }
+.intro-overlay.intro-play .intro-ghost-3 { animation-delay: 0.15s, 1.5s; }
+@keyframes intro-ball-path {
+  0%   { transform: translate(10px, 30px);   animation-timing-function: cubic-bezier(.45,0,.9,.6); }
+  44%  { transform: translate(115px, 139px); animation-timing-function: cubic-bezier(.1,.5,.4,1); }
+  62%  { transform: translate(199px, 100px); animation-timing-function: cubic-bezier(.2,.6,.4,1); }
+  100% { transform: translate(150px, 139px); }
 }
-/* Ball disappears after the impact, before the stumps hide and the logo pops in */
-@keyframes intro-ball-hide {
-  from { opacity: 1; }
-  to { opacity: 0; }
+@keyframes intro-ball-fade { from { opacity: 1; } to { opacity: 0; } }
+.intro-overlay.intro-play .intro-ball-spin { animation: intro-spin 1.05s linear forwards; }
+@keyframes intro-spin { from { transform: rotate(0deg); } to { transform: rotate(900deg); } }
+
+/* ---- Bounce dust ---- */
+.intro-overlay.intro-play .intro-dust { animation: intro-dust 0.5s ease-out 0.72s forwards; }
+@keyframes intro-dust {
+  0%   { opacity: 0.8; transform: scale(0.4); }
+  100% { opacity: 0;   transform: scale(4.5); }
 }
-.intro-stumps { transform-origin: bottom center; }
-@keyframes intro-wobble {
-  0% { transform: rotate(0deg); }
-  20% { transform: rotate(-7deg); }
-  45% { transform: rotate(5deg); }
-  70% { transform: rotate(-3deg); }
-  100% { transform: rotate(0deg); }
+
+/* ---- Impact: flash, shock rings, sparks, screen shake ---- */
+.intro-overlay.intro-play .intro-flash { animation: intro-flash 0.45s ease-out 1.05s forwards; }
+@keyframes intro-flash {
+  0%   { opacity: 0.4; transform: scale(0.2); }
+  100% { opacity: 0;    transform: scale(1.6); }
 }
-.intro-overlay.intro-play .intro-bail-1 { animation: intro-bail-fly 0.7s ease-in 0.78s forwards; }
-.intro-overlay.intro-play .intro-bail-2 { animation: intro-bail-fly2 0.7s ease-in 0.82s forwards; }
-@keyframes intro-bail-fly {
-  0% { transform: translate(0,0) rotate(0deg); opacity: 1; }
-  100% { transform: translate(18px,-34px) rotate(120deg); opacity: 0; }
+.intro-overlay.intro-play .intro-ring-1 { animation: intro-ring 0.6s ease-out 1.05s forwards; }
+.intro-overlay.intro-play .intro-ring-2 { animation: intro-ring 0.7s ease-out 1.14s forwards; }
+@keyframes intro-ring {
+  0%   { opacity: 1; transform: scale(0.3); }
+  100% { opacity: 0; transform: scale(7); }
 }
-@keyframes intro-bail-fly2 {
-  0% { transform: translate(0,0) rotate(0deg); opacity: 1; }
-  100% { transform: translate(-10px,-30px) rotate(-100deg); opacity: 0; }
+.intro-overlay.intro-play .intro-spark { animation: intro-spark 0.7s ease-out 1.05s forwards; }
+@keyframes intro-spark {
+  0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.2); }
 }
+.intro-overlay.intro-play .intro-stage { animation: intro-shake 0.45s ease-out 1.05s; }
+@keyframes intro-shake {
+  0%, 100% { transform: translate(0, 0); }
+  15% { transform: translate(-7px, 3px); }
+  30% { transform: translate(6px, -4px); }
+  45% { transform: translate(-5px, -2px); }
+  60% { transform: translate(4px, 3px); }
+  80% { transform: translate(-2px, 1px); }
+}
+
+/* ---- Stumps get knocked back, bails fly ---- */
+.intro-stump-1 { --rot: 42deg; --tx: 10px; }
+.intro-stump-2 { --rot: 26deg; --tx: 6px; }
+.intro-stump-3 { --rot: 14deg; --tx: 3px; }
+.intro-overlay.intro-play .intro-stump { animation: intro-stump-fall 0.55s cubic-bezier(.2,.7,.3,1) 1.05s forwards; }
+.intro-overlay.intro-play .intro-stump-2 { animation-delay: 1.09s; }
+.intro-overlay.intro-play .intro-stump-3 { animation-delay: 1.13s; }
+@keyframes intro-stump-fall { to { transform: translateX(var(--tx)) rotate(var(--rot)); } }
+
+.intro-overlay.intro-play .intro-bail-1 { animation: intro-bail-fly-1 0.85s linear 1.05s forwards; }
+.intro-overlay.intro-play .intro-bail-2 { animation: intro-bail-fly-2 0.85s linear 1.09s forwards; }
+@keyframes intro-bail-fly-1 {
+  0%   { transform: translate(0, 0); opacity: 1; animation-timing-function: ease-out; }
+  45%  { transform: translate(22px, -62px) rotate(140deg); opacity: 1; animation-timing-function: ease-in; }
+  100% { transform: translate(46px, 20px) rotate(360deg); opacity: 0; }
+}
+@keyframes intro-bail-fly-2 {
+  0%   { transform: translate(0, 0); opacity: 1; animation-timing-function: ease-out; }
+  45%  { transform: translate(38px, -50px) rotate(-120deg); opacity: 1; animation-timing-function: ease-in; }
+  100% { transform: translate(78px, 26px) rotate(-320deg); opacity: 0; }
+}
+
+/* Clear the scene just before the logo reveal */
+.intro-overlay.intro-play .intro-stumps,
+.intro-overlay.intro-play .intro-ground { animation: intro-fade-out 0.25s ease 1.85s forwards; }
+@keyframes intro-fade-out { from { opacity: 1; } to { opacity: 0; } }
+
+/* ---- Logo reveal ---- */
 .intro-logo-wrap {
   position: absolute;
   inset: 0;
@@ -186,28 +250,20 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transform: scale(0.8);
+  transform: scale(0.6);
 }
 .intro-overlay.intro-play .intro-logo-wrap {
-  animation: intro-logo-in 0.7s cubic-bezier(.2,.8,.3,1.2) 1.35s forwards;
-}
-/* Hide the cricket stumps before the logo begins its pop-in,
-   so the reveal reads as one clean transition. */
-.intro-overlay.intro-play .intro-stumps {
-  animation: intro-wobble 0.6s ease-out 0.78s, intro-stumps-hide 0.18s ease 1.20s forwards;
-}
-@keyframes intro-stumps-hide {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  animation: intro-logo-in 0.8s cubic-bezier(.2,.8,.3,1) 2.05s forwards;
 }
 @keyframes intro-logo-in {
-  0% { opacity: 0; transform: scale(0.8); }
+  0%   { opacity: 0; transform: scale(0.6); }
+  60%  { opacity: 1; transform: scale(1.07); }
   100% { opacity: 1; transform: scale(1); }
 }
 .intro-logo {
-  width: min(46vw, 168px);
+  width: min(52vw, 230px);
   height: auto;
-  filter: drop-shadow(0 10px 30px rgba(227,192,106,0.25));
+  filter: drop-shadow(0 10px 36px rgba(227,192,106,0.4));
 }
 .intro-skip {
   position: absolute;
@@ -835,15 +891,38 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 <!-- ===================== INTRO SPLASH ===================== -->
 <div class="intro-overlay" id="introOverlay">
   <div class="intro-stage">
-    <svg class="intro-svg" viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg">
+    <svg class="intro-svg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+      <line class="intro-ground" x1="-40" y1="150" x2="340" y2="150"/>
+      <ellipse class="intro-dust pv" cx="115" cy="150" rx="5" ry="1.8"/>
       <g class="intro-stumps">
-        <rect x="150" y="28" width="7" height="80" rx="2" class="intro-stump"/>
-        <rect x="172" y="28" width="7" height="80" rx="2" class="intro-stump"/>
-        <rect x="194" y="28" width="7" height="80" rx="2" class="intro-stump"/>
-        <rect x="147" y="20" width="28" height="7" rx="2" class="intro-bail intro-bail-1"/>
-        <rect x="176" y="20" width="28" height="7" rx="2" class="intro-bail intro-bail-2"/>
+        <rect x="210" y="60" width="8" height="90" rx="2" class="intro-stump intro-stump-1"/>
+        <rect x="226" y="60" width="8" height="90" rx="2" class="intro-stump intro-stump-2"/>
+        <rect x="242" y="60" width="8" height="90" rx="2" class="intro-stump intro-stump-3"/>
+        <rect x="209" y="54" width="18" height="5" rx="2" class="intro-bail intro-bail-1"/>
+        <rect x="233" y="54" width="18" height="5" rx="2" class="intro-bail intro-bail-2"/>
       </g>
-      <circle class="intro-ball" cx="20" cy="70" r="8"/>
+      <circle class="intro-flash pv" cx="205" cy="100" r="50"/>
+      <circle class="intro-ring intro-ring-1 pv" cx="205" cy="100" r="8"/>
+      <circle class="intro-ring intro-ring-2 pv" cx="205" cy="100" r="8"/>
+      <circle class="intro-spark pv" cx="205" cy="100" r="2.4" style="--dx:-46px;--dy:-30px"/>
+      <circle class="intro-spark pv" cx="205" cy="100" r="2.4" style="--dx:-38px;--dy:10px"/>
+      <circle class="intro-spark pv" cx="205" cy="100" r="2.4" style="--dx:-22px;--dy:-46px"/>
+      <circle class="intro-spark pv" cx="205" cy="100" r="2.4" style="--dx:-8px;--dy:-52px"/>
+      <circle class="intro-spark pv" cx="205" cy="100" r="2.4" style="--dx:14px;--dy:-44px"/>
+      <circle class="intro-spark pv" cx="205" cy="100" r="2.4" style="--dx:24px;--dy:-20px"/>
+      <circle class="intro-spark pv" cx="205" cy="100" r="2.4" style="--dx:-50px;--dy:-8px"/>
+      <circle class="intro-spark pv" cx="205" cy="100" r="2.4" style="--dx:-30px;--dy:32px"/>
+      <g class="intro-ball-g intro-ghost-3"><circle class="intro-ghost" r="11" fill-opacity="0.10"/></g>
+      <g class="intro-ball-g intro-ghost-2"><circle class="intro-ghost" r="11" fill-opacity="0.18"/></g>
+      <g class="intro-ball-g intro-ghost-1"><circle class="intro-ghost" r="11" fill-opacity="0.28"/></g>
+      <g class="intro-ball-g">
+        <g class="intro-ball-spin pv">
+          <circle class="intro-ball" r="11"/>
+          <path class="intro-seam" d="M-10 -3 C -4 4, 4 4, 10 -3"/>
+          <path class="intro-seam" d="M-10 3 C -4 10, 4 10, 10 3"/>
+        </g>
+        <circle class="intro-ball-shine" cx="-3.5" cy="-4" r="3"/>
+      </g>
     </svg>
     <div class="intro-logo-wrap">
       <img class="intro-logo" src="data:image/jpeg;base64,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" alt="LS Masterclass Cricket Academy">
@@ -1157,7 +1236,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ---------------------------------------------------------
-   Intro splash — ball rolls in, wobbles the stumps, bails
+   Intro splash — ball bounces in, smashes the stumps, bails
    fly off, then the academy logo scales in. Locks scroll
    while it plays; skips instantly for reduced-motion users
    or if the visitor clicks "Skip".
@@ -1184,7 +1263,7 @@ function initIntro() {
     document.body.style.overflow = "";
   };
 
-  const timer = setTimeout(finish, 2600);
+  const timer = setTimeout(finish, 3400);
 
   skipBtn.addEventListener("click", () => {
     clearTimeout(timer);
@@ -1293,7 +1372,7 @@ function initEnquiryModal() {
 
   // Get a free access key at https://web3forms.com (enter connectsvn@gmail.com),
   // then paste it below. The key is emailed to that address.
-  const WEB3FORMS_KEY = "2c9ea4a5-5aa5-431e-96d0-61d1bdb89512";
+  const WEB3FORMS_KEY = "PASTE_YOUR_ACCESS_KEY_HERE";
 
   function openModal() {
     overlay.classList.add("open");
