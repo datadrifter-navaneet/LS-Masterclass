@@ -1199,6 +1199,34 @@ input:focus, textarea:focus { border-bottom-color: var(--teal); box-shadow: 0 1p
 @media (max-width: 480px) {
   .timeline-body { padding: 14px 16px 16px; }
 }
+
+/* ---------- Image fit fixes: show photos at their true proportions ---------- */
+.visual-frame { aspect-ratio: 365 / 547; max-width: 440px; width: 100%; margin: 0 auto; }
+.visual-frame img { object-fit: cover; object-position: center top; }
+
+.gallery-grid {
+  display: block;
+  column-count: 4;
+  column-gap: 18px;
+  grid-auto-rows: auto;
+}
+.gallery-tile, .gallery-tile--tall, .gallery-tile--wide {
+  display: block;
+  grid-row: auto; grid-column: auto;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin: 0 0 18px;
+  min-height: 0;
+}
+.gallery-tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+@media (max-width: 1000px) { .gallery-grid { column-count: 3; } }
+@media (max-width: 700px)  { .gallery-grid { column-count: 2; column-gap: 12px; } .gallery-tile { margin-bottom: 12px; } }
+@media (max-width: 480px)  { .gallery-grid { grid-auto-rows: auto; } }
 </style>
 </head>
 <body>
