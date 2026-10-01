@@ -11,24 +11,30 @@
 <style>
 /* =========================================================
    LS MASTERCLASS — STYLESHEET
-   Palette: deep navy/black + metallic gold + soft ivory
+   Palette: light sky blue + vivid blue/cyan/violet/pink/orange accents
    Type: Playfair Display (display) / Inter (body)
 ========================================================= */
 
 :root {
-  --navy-950: #05070c;
-  --navy-900: #0a0f18;
-  --navy-800: #121a28;
-  --navy-700: #1b2537;
-  --gold-300: #f1d998;
-  --gold-400: #e3c06a;
-  --gold-500: #c9a03f;
-  --gold-700: #8a6a1f;
-  --ivory: #f2efe6;
-  --ivory-dim: #cfc9ba;
-  --slate: #8b93a1;
-  --line: rgba(227, 192, 106, 0.16);
-  --line-strong: rgba(227, 192, 106, 0.32);
+  --navy-950: #eef8ff;   /* page background (lightest sky) */
+  --navy-900: #dff1ff;
+  --navy-800: #cde8ff;
+  --navy-700: #b5dbff;
+  --gold-300: #2f8cff;   /* accent names kept from the old theme; now blues */
+  --gold-400: #0a6cff;
+  --gold-500: #0052d9;
+  --gold-700: #0a3a9b;
+  --ivory: #0b2447;      /* main text (deep navy) */
+  --ivory-dim: #2b4a78;
+  --slate: #5a7699;
+  --line: rgba(10, 108, 255, 0.16);
+  --line-strong: rgba(10, 108, 255, 0.34);
+
+  --cyan: #00b8ff;
+  --violet: #7b3fe4;
+  --pink: #ff4fa3;
+  --orange: #ff9a3c;
+  --mint: #2ed3a0;
 
   --font-display: "Playfair Display", "Georgia", serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -884,6 +890,223 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 130px; }
 }
 
+
+/* =========================================================
+   COLOUR THEME: light blue + vibrant accents (overrides)
+========================================================= */
+::selection { background: var(--cyan); color: #fff; }
+
+/* Intro stays a deep-blue stage so the ball and stumps pop */
+.intro-overlay { background: radial-gradient(ellipse at center, #1c56d6 0%, #0b2a7a 55%, #050f33 100%); }
+.intro-stump { fill: #ffd23f; }
+.intro-bail { fill: #ffffff; }
+.intro-ground { stroke: #5fd3ff; opacity: 0.6; }
+.intro-ball { fill: #ff3b4a; }
+.intro-ghost { fill: #ff6b78; }
+.intro-seam { stroke: #ffffff; }
+.intro-ring { stroke: #7fe0ff; }
+.intro-flash { fill: #5fd3ff; }
+.intro-spark { fill: #ffd23f; }
+.intro-dust { stroke: #bfe3ff; }
+.intro-logo { filter: drop-shadow(0 10px 36px rgba(95, 211, 255, 0.55)); }
+.intro-skip { color: #bcd7ff; border-color: rgba(255, 255, 255, 0.3); }
+.intro-skip:hover { border-color: #fff; color: #fff; }
+
+/* Navigation */
+.site-nav.scrolled { background: rgba(255, 255, 255, 0.85); box-shadow: 0 8px 26px -14px rgba(10, 60, 160, 0.4); }
+.brand span {
+  background: linear-gradient(90deg, #0a6cff, #7b3fe4, #ff4fa3);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.nav-link::after { height: 2px; background: linear-gradient(90deg, var(--cyan), var(--violet), var(--pink)); }
+.nav-enquire { background: linear-gradient(135deg, var(--cyan), var(--gold-400)); color: #fff; border-color: transparent; border-radius: 999px; }
+.nav-enquire:hover { background: linear-gradient(135deg, var(--violet), var(--pink)); color: #fff; border-color: transparent; }
+
+/* Buttons */
+.btn { border-radius: 999px; }
+.btn-gold {
+  background: linear-gradient(135deg, #00b8ff 0%, #0a6cff 45%, #7b3fe4 100%);
+  color: #fff;
+  box-shadow: 0 12px 26px -12px rgba(10, 108, 255, 0.7);
+}
+.btn-gold:hover { box-shadow: 0 18px 34px -12px rgba(123, 63, 228, 0.7); }
+.btn-ghost { border-color: var(--gold-400); color: var(--gold-400); background: rgba(255, 255, 255, 0.65); }
+.btn-ghost:hover { background: #fff; border-color: var(--violet); color: var(--violet); }
+
+/* Hero */
+.hero {
+  background:
+    radial-gradient(circle at 12% 22%, rgba(0, 184, 255, 0.45), transparent 46%),
+    radial-gradient(circle at 88% 18%, rgba(123, 63, 228, 0.32), transparent 46%),
+    radial-gradient(circle at 72% 88%, rgba(255, 79, 163, 0.28), transparent 46%),
+    radial-gradient(circle at 25% 90%, rgba(255, 154, 60, 0.22), transparent 42%),
+    linear-gradient(160deg, #bfe8ff 0%, #d9ecff 45%, #eef8ff 100%);
+}
+.hero::before, .hero::after {
+  content: ""; position: absolute; border-radius: 50%; z-index: 0; pointer-events: none; filter: blur(8px);
+}
+.hero::before {
+  width: 520px; height: 520px; left: -150px; top: -130px;
+  background: radial-gradient(circle, rgba(0, 184, 255, 0.5), transparent 66%);
+  animation: float-a 14s ease-in-out infinite;
+}
+.hero::after {
+  width: 560px; height: 560px; right: -170px; bottom: -150px;
+  background: radial-gradient(circle, rgba(255, 79, 163, 0.42), transparent 66%);
+  animation: float-b 17s ease-in-out infinite;
+}
+@keyframes float-a { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(60px, 40px); } }
+@keyframes float-b { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-50px, -40px); } }
+.hero-photo img { filter: grayscale(20%) contrast(1.05); opacity: 0.22; mix-blend-mode: multiply; }
+.hero-overlay { background: linear-gradient(180deg, rgba(238, 248, 255, 0.2) 0%, rgba(238, 248, 255, 0.5) 55%, var(--navy-950) 97%); }
+.hero-title {
+  background: linear-gradient(120deg, #0a3fd1 8%, #0a6cff 26%, #7b3fe4 48%, #e0359b 70%, #0a3fd1 92%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.scroll-cue span { background: var(--violet); }
+
+/* Section backgrounds: a soft rainbow flow down the page */
+.mastery { background: linear-gradient(180deg, #eef8ff 0%, #d6ebff 100%); border: none; }
+.about    { background: linear-gradient(180deg, #d6ebff 0%, #efe6ff 100%); }
+.journey  { background: linear-gradient(180deg, #efe6ff 0%, #dcf6ee 100%); border: none; }
+.gallery  { background: linear-gradient(180deg, #dcf6ee 0%, #dff0ff 100%); }
+.social   { background: linear-gradient(180deg, #dff0ff 0%, #ffe9f3 100%); border: none; }
+
+/* Headings */
+.eyebrow { color: var(--violet); font-weight: 600; }
+.section-title-center, .about-copy h2, .modal h2 {
+  background: linear-gradient(90deg, #0a3fd1, #7b3fe4 60%, #e0359b);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* Mastery: each row gets its own colour */
+.mastery-row:nth-child(1) { --c: #00a8ff; }
+.mastery-row:nth-child(2) { --c: #7b3fe4; }
+.mastery-row:nth-child(3) { --c: #ff4fa3; }
+.mastery-row:nth-child(4) { --c: #ff8a1f; }
+.mastery-list { gap: 18px; }
+.mastery-row {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid #fff;
+  border-radius: 22px;
+  padding: 30px 36px;
+  box-shadow: 0 16px 36px -24px rgba(10, 60, 160, 0.55);
+}
+.mastery-row:last-child { border-bottom: 1px solid #fff; }
+.m-ring, .m-line, .m-square { stroke: var(--c, var(--gold-400)); stroke-width: 1.9; }
+.m-cross { stroke: var(--c, var(--gold-500)); opacity: 0.85; }
+.m-dot { fill: var(--c, var(--gold-400)); }
+.mastery-icon svg {
+  width: 72px; height: 72px; padding: 12px; border-radius: 22px;
+  background: color-mix(in srgb, var(--c, #0a6cff) 16%, #fff);
+  box-shadow: 0 10px 22px -14px var(--c, #0a6cff);
+}
+
+/* About photo: tinted frame */
+.visual-frame {
+  border: none; border-radius: 26px;
+  background: linear-gradient(155deg, #bfe8ff, #d9c8ff);
+  box-shadow: 0 0 0 6px #fff, 0 34px 60px -30px rgba(10, 60, 160, 0.6);
+}
+.visual-frame::before { border: 1px solid rgba(255, 255, 255, 0.7); border-radius: 16px; }
+.visual-frame::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(160deg, rgba(0, 184, 255, 0.55), rgba(123, 63, 228, 0.45));
+  mix-blend-mode: color;
+}
+.frame-caption { color: #fff; background: linear-gradient(0deg, rgba(10, 36, 100, 0.85), transparent); }
+
+/* Timeline */
+.timeline::before {
+  width: 3px; left: 107px; border-radius: 2px;
+  background: linear-gradient(180deg, #00b8ff, #7b3fe4 40%, #ff4fa3 70%, #ff9a3c);
+}
+.timeline-item:nth-child(5n+1) { --c: #00a8ff; --cd: #0075c9; }
+.timeline-item:nth-child(5n+2) { --c: #7b3fe4; --cd: #5a28b8; }
+.timeline-item:nth-child(5n+3) { --c: #ff4fa3; --cd: #c71f78; }
+.timeline-item:nth-child(5n+4) { --c: #ff9a3c; --cd: #c25e00; }
+.timeline-item:nth-child(5n+5) { --c: #2ed3a0; --cd: #0b8f6a; }
+.timeline-year { color: var(--cd, var(--gold-500)); font-weight: 600; }
+.timeline-year::after {
+  width: 13px; height: 13px; top: 6px; right: -25px;
+  background: var(--c, var(--gold-400));
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--c, #0a6cff) 30%, transparent);
+  box-sizing: content-box; width: 7px; height: 7px;
+}
+.timeline-body {
+  background: rgba(255, 255, 255, 0.72);
+  border-top: 3px solid var(--c, var(--gold-400));
+  border-radius: 14px;
+  padding: 16px 22px 18px;
+  box-shadow: 0 14px 30px -22px rgba(10, 60, 160, 0.55);
+}
+
+/* Gallery */
+.gallery-tile:nth-child(5n+1) { --c: #00a8ff; }
+.gallery-tile:nth-child(5n+2) { --c: #7b3fe4; }
+.gallery-tile:nth-child(5n+3) { --c: #ff4fa3; }
+.gallery-tile:nth-child(5n+4) { --c: #ff9a3c; }
+.gallery-tile:nth-child(5n+5) { --c: #2ed3a0; }
+.gallery-tile {
+  background: linear-gradient(160deg, #bfe8ff, #e3d5ff);
+  border: 3px solid #fff; border-radius: 18px;
+  box-shadow: 0 16px 30px -18px rgba(10, 60, 160, 0.5);
+}
+.gallery-tile:hover { border-color: var(--c, var(--pink)); box-shadow: 0 22px 36px -16px var(--c, var(--pink)); transform: translateY(-5px); }
+
+/* Call to action */
+.cta {
+  background: linear-gradient(120deg, #0a6cff 0%, #00b8ff 30%, #7b3fe4 65%, #ff4fa3 100%);
+  background-size: 200% 200%;
+  animation: cta-flow 12s ease-in-out infinite;
+}
+@keyframes cta-flow { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.cta-text { background: none; color: #fff; -webkit-text-fill-color: #fff; animation: none; text-shadow: 0 6px 30px rgba(10, 30, 100, 0.35); }
+.cta .btn-gold { background: #fff; color: #0a3fd1; box-shadow: 0 16px 30px -12px rgba(5, 20, 80, 0.55); }
+.cta .btn-gold:hover { background: #fff7d6; box-shadow: 0 20px 36px -12px rgba(5, 20, 80, 0.65); }
+
+/* Social cards */
+.social-card:nth-child(1) { --c: #1d9bf0; }
+.social-card:nth-child(2) { --c: #e1306c; }
+.social-card:nth-child(3) { --c: #ff2d2d; }
+.social-card { background: #fff; border: none; border-radius: 20px; box-shadow: 0 18px 36px -24px rgba(10, 60, 160, 0.6); }
+.social-card:hover { transform: translateY(-5px); box-shadow: 0 24px 40px -20px var(--c, #0a6cff); }
+.social-card .social-icon { border: 2px solid var(--c, var(--gold-400)); }
+.social-card .social-icon svg { stroke: var(--c, var(--gold-400)); }
+.social-card .fill-icon { fill: var(--c, var(--gold-400)); }
+.social-card:hover .social-icon { background: var(--c); border-color: var(--c); }
+.social-card:hover .social-icon svg { stroke: #fff; }
+.social-card:hover .fill-icon { fill: #fff; }
+
+/* Footer */
+.site-footer { background: linear-gradient(120deg, #0a2a78, #1747b8 55%, #4a2fb8); border-top: none; color: #fff; }
+.footer-brand { color: #fff; }
+.footer-brand span { color: #7fe0ff; }
+.footer-social, .footer-email { color: #cfe6ff; }
+.footer-email:hover, .footer-social a:hover { color: #fff; }
+.footer-icon { border-color: rgba(255, 255, 255, 0.35); }
+.footer-icon svg { stroke: #bfe9ff; }
+.footer-icon .fill-icon { fill: #bfe9ff; }
+.footer-icon:hover { background: #fff; border-color: #fff; }
+.footer-icon:hover svg { stroke: #0a3fd1; }
+.footer-icon:hover .fill-icon { fill: #0a3fd1; }
+
+/* Enquiry modal */
+.modal-overlay { background: rgba(10, 36, 100, 0.55); }
+.modal {
+  background: linear-gradient(90deg, #00b8ff, #7b3fe4, #ff4fa3, #ff9a3c) top / 100% 6px no-repeat, #fff;
+  border: none; border-radius: 24px;
+  box-shadow: 0 30px 80px -20px rgba(10, 40, 120, 0.55);
+}
+.modal-close:hover { color: var(--pink); }
+input:focus, textarea:focus { border-bottom-color: var(--violet); }
+
+@media (max-width: 700px) {
+  .timeline::before { left: 61px; }
+  .timeline-year::after { right: -13px; }
+}
 </style>
 </head>
 <body>
@@ -1360,8 +1583,8 @@ function initScrollReveal() {
 }
 
 /* ---------------------------------------------------------
-   Enquiry modal + direct send (Web3Forms)
-   Posts the form to Web3Forms, which emails it straight to the inbox.
+   Enquiry modal + mailto-based submission
+   Builds a mailto: link from the form fields and opens the visitor's own email app, addressed to lsmasterclass1@gmail.com.
 --------------------------------------------------------- */
 function initEnquiryModal() {
   const overlay = document.getElementById("modalOverlay");
@@ -1370,9 +1593,8 @@ function initEnquiryModal() {
   const form = document.getElementById("enquiryForm");
   const errorEl = document.getElementById("formError");
 
-  // Get a free access key at https://web3forms.com (enter connectsvn@gmail.com),
-  // then paste it below. The key is emailed to that address.
-  const WEB3FORMS_KEY = "PASTE_YOUR_ACCESS_KEY_HERE";
+  // Enquiries open the visitor's email app, pre-filled, addressed to this inbox.
+  const ENQUIRY_EMAIL = "lsmasterclass1@gmail.com";
 
   function openModal() {
     overlay.classList.add("open");
@@ -1421,7 +1643,7 @@ function initEnquiryModal() {
     submitBtn.textContent = "Sending...";
 
     const finish = (text) => {
-      errorEl.style.color = "#a9c98a";
+      errorEl.style.color = "#1c8a4a";
       errorEl.textContent = text;
       submitBtn.disabled = false;
       submitBtn.textContent = "Send Enquiry";
@@ -1433,34 +1655,14 @@ function initEnquiryModal() {
       }, 2200);
     };
 
-    try {
-      if (WEB3FORMS_KEY.startsWith("PASTE_")) throw new Error("access key not set");
-      // Sends the enquiry straight to the inbox with the subject "Enquiry".
-      const res = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          subject: "Enquiry",
-          from_name: "LS Masterclass Website",
-          name: name,
-          phone: phone,
-          email: email,
-          message: message
-        })
-      });
-      const data = await res.json().catch(() => ({}));
-      console.log("Web3Forms response:", res.status, data);
-      if (!res.ok || data.success !== true) throw new Error(data.message || ("HTTP " + res.status));
-      finish("Thank you! Your enquiry has been sent.");
-    } catch (err) {
-      // No mail-app popup: show an error and let the visitor retry.
-      console.error("Enquiry send failed:", err);
-      errorEl.style.color = "";
-      errorEl.textContent = "Sorry, your enquiry could not be sent. (" + (err && err.message ? err.message : "network error") + ")";
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Send Enquiry";
-    }
+    const body =
+      `Name: ${name}\n` +
+      `Phone: ${phone}\n` +
+      `Email: ${email}\n\n` +
+      `Message:\n${message}`;
+    window.location.href =
+      `mailto:${ENQUIRY_EMAIL}?subject=${encodeURIComponent("Enquiry")}&body=${encodeURIComponent(body)}`;
+    finish("Opening your email app with the enquiry ready to send...");
   });
 }
 
