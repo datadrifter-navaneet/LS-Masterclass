@@ -1160,7 +1160,7 @@ input:focus, textarea:focus { outline: none; }
     const overlay = $("#introOverlay");
     const skipBtn = $("#introSkip");
     let seen = false;
-    try { seen = sessionStorage.getItem("ls-intro") === "1"; } catch (e) {}
+    // plays on every page load
 
     if (reduce || seen) {
       overlay.classList.add("intro-gone");
