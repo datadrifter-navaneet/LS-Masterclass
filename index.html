@@ -815,18 +815,7 @@ input:focus, textarea:focus { outline: none; }
 .level:hover .level-go { color: var(--gold); gap: 13px; }
 .level::after { content: ""; position: absolute; top: 18px; right: 18px; z-index: 1; width: 9px; height: 9px; border-radius: 50%; background: var(--ball); box-shadow: 0 0 0 0 rgba(179, 38, 45, .5); animation: ball-ping 2.8s ease-out infinite; }
 @keyframes ball-ping { 0% { box-shadow: 0 0 0 0 rgba(179, 38, 45, .45); } 70%, 100% { box-shadow: 0 0 0 12px rgba(179, 38, 45, 0); } }
-.steps { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(18px, 2.4vw, 36px); margin: clamp(56px, 7vw, 100px) 0 0; padding: 0; list-style: none; counter-reset: step; }
-.steps::before { content: ""; position: absolute; left: 0; right: 0; top: 19px; height: 1px; background: var(--line); }
-.step { position: relative; padding-top: 58px; counter-increment: step; }
-.step::before {
-  content: counter(step); position: absolute; left: 0; top: 0; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%;
-  background: var(--ivory); border: 1px solid var(--ink); font-family: var(--serif); font-size: 1.3rem; transition: background .4s, color .4s;
-}
-.step:hover::before { background: var(--gold); border-color: var(--gold); }
-.step:last-child::before { background: var(--ball); border-color: var(--ball); color: var(--ivory); }
-.step h3 { margin: 0 0 8px; font-family: var(--serif); font-weight: 400; font-size: 1.6rem; }
-.step p { margin: 0; max-width: 28ch; font-size: .95rem; color: var(--fg-dim); }
-@media (max-width: 960px) { .levels-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 40px; } .steps::before { display: none; } }
+@media (max-width: 960px) { .levels-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .levels-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .level { min-height: 190px; } }
 
 /* Enquiry form extras */
@@ -1303,12 +1292,6 @@ select:focus { outline: none; }
       <button class="level" data-reveal type="button" data-open-enquiry data-level="Under 23"><span class="level-big">U23</span><span><span class="level-label">Under 23 spinners</span><span class="level-go">Enquire<svg aria-hidden="true"><use href="#i-arrow"/></svg></span></span></button>
       <button class="level" data-reveal type="button" data-open-enquiry data-level="State level"><span class="level-big">State</span><span><span class="level-label">State level spinners</span><span class="level-go">Enquire<svg aria-hidden="true"><use href="#i-arrow"/></svg></span></span></button>
     </div>
-    <ol class="steps">
-      <li class="step" data-reveal><h3>Enquire</h3><p>Fill in the form with your details and your level.</p></li>
-      <li class="step" data-reveal style="--d:90ms"><h3>Send your video</h3><p>Share a Google Drive link to your bowling action.</p></li>
-      <li class="step" data-reveal style="--d:180ms"><h3>He reviews it</h3><p>He watches every video himself.</p></li>
-      <li class="step" data-reveal style="--d:270ms"><h3>He decides</h3><p>After the review, he makes a decision and we get back to you.</p></li>
-    </ol>
   </div>
 </section>
 
