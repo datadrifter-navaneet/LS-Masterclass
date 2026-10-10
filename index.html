@@ -1108,8 +1108,8 @@ input:focus, textarea:focus { outline: none; }
     <div class="reels-head">
       <div>
         <p class="eyebrow" data-reveal>Showcase</p>
-        <h2 class="display" data-split>Watch Him Teach</h2>
-        <p class="reels-sub" data-reveal>Tap any reel to play it right here.</p>
+        <h2 class="display" data-split>Straight From the Nets</h2>
+        <p class="reels-sub" data-reveal>Real sessions and real feedback. Tap a reel to play it here.</p>
       </div>
       <div class="reel-nav" data-reveal>
         <button class="round-btn" id="reelPrev" type="button" aria-label="Scroll reels left"><svg aria-hidden="true"><use href="#i-prev"/></svg></button>
@@ -1776,10 +1776,23 @@ input:focus, textarea:focus { outline: none; }
     const reset = () => {
       $$(".reel-card.is-live").forEach((c) => {
         const f = $("iframe", c); if (f) f.remove();
-        $(".reel-face", c).hidden = false;
         c.classList.remove("is-live");
       });
     };
+    const loadCard = (card) => {
+      if (card.classList.contains("is-live")) return;
+      const f = document.createElement("iframe");
+      f.src = card.dataset.embed;
+      f.title = "Instagram reel";
+      f.loading = "lazy";
+      f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+      f.allowFullscreen = true;
+      f.setAttribute("scrolling", "no");
+      card.appendChild(f);
+      card.classList.add("is-live");
+    };
+    let visible = false;
+    const loadActive = () => { if (visible) $$(".reel-panel:not([hidden]) .reel-card").forEach(loadCard); };
     const select = (i) => {
       reset();
       tabs.forEach((t, k) => { t.setAttribute("aria-selected", String(k === i)); t.tabIndex = k === i ? 0 : -1; });
@@ -1789,6 +1802,7 @@ input:focus, textarea:focus { outline: none; }
         if (k === i) { void p.offsetWidth; p.classList.add("is-on"); const tr = $(".reel-track", p); if (tr) tr.scrollLeft = 0; }
       });
       place(tabs[i]);
+      loadActive();
     };
     tabs.forEach((t, i) => {
       t.addEventListener("click", () => select(i));
@@ -1803,20 +1817,14 @@ input:focus, textarea:focus { outline: none; }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => place(tabs.find((t) => t.getAttribute("aria-selected") === "true")));
 
     $$(".reel-card").forEach((card) => {
-      $(".reel-face", card).addEventListener("click", () => {
-        reset();
-        const f = document.createElement("iframe");
-        f.src = card.dataset.embed;
-        f.title = "Instagram reel";
-        f.loading = "lazy";
-        f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
-        f.allowFullscreen = true;
-        f.setAttribute("scrolling", "no");
-        card.appendChild(f);
-        $(".reel-face", card).hidden = true;
-        card.classList.add("is-live");
-      });
+      $(".reel-face", card).addEventListener("click", () => loadCard(card));
     });
+    const sec = $("#reels");
+    if ("IntersectionObserver" in window && sec) {
+      new IntersectionObserver((en, ob) => {
+        if (en.some((e) => e.isIntersecting)) { visible = true; loadActive(); ob.disconnect(); }
+      }, { rootMargin: "400px 0px" }).observe(sec);
+    } else { visible = true; loadActive(); }
 
     const activeTrack = () => $(".reel-panel:not([hidden]) .reel-track");
     const step = (dir) => {
