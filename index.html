@@ -32,7 +32,7 @@
   --serif: "Instrument Serif", "Iowan Old Style", Georgia, "Times New Roman", serif;
   --sans: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 
-  --r: 2px;
+  --r: 14px;
   --nav-h: 84px;
   --gutter: clamp(22px, 5vw, 64px);
   --container: 1240px;
@@ -693,6 +693,99 @@ input:focus, textarea:focus { outline: none; }
   .lb-prev { left: 8px; } .lb-next { right: 8px; }
 }
 
+
+/* ---------- 17b. Motion and modern layer ---------- */
+.btn, .nav-link.nav-enquire { border-radius: 999px; }
+.progress {
+  position: fixed; left: 0; top: 0; z-index: 120; width: 100%; height: 3px;
+  transform: scaleX(0); transform-origin: 0 50%; pointer-events: none;
+  background: linear-gradient(90deg, var(--gold), #F1D98E, var(--gold));
+  box-shadow: 0 0 14px rgba(201, 162, 75, .7);
+}
+.spot {
+  position: fixed; left: 0; top: 0; z-index: 60; width: 560px; height: 560px; margin: -280px 0 0 -280px;
+  border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity .5s;
+  background: radial-gradient(circle, rgba(201, 162, 75, .17), rgba(201, 162, 75, 0) 62%);
+  mix-blend-mode: screen; will-change: transform;
+}
+.spot.on { opacity: 1; }
+
+/* Gold marquee band */
+.marquee { position: relative; overflow: hidden; background: var(--gold); color: var(--night); padding: clamp(16px, 2vw, 26px) 0; transform: rotate(-1.2deg); margin: -10px -2% 0; z-index: 2; }
+.marquee-track { display: flex; width: max-content; animation: marquee 28s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-group { display: flex; align-items: center; flex: none; }
+.marquee-group span { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 3.4rem); line-height: 1; padding: 0 clamp(18px, 2.4vw, 34px); white-space: nowrap; }
+.marquee-group i { width: 12px; height: 12px; background: var(--night); transform: rotate(45deg); flex: none; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* Gallery: tilt and sheen */
+.gallery-grid { perspective: 1400px; }
+.shot { position: relative; border-radius: var(--r); transition: transform .6s var(--ease), box-shadow .6s var(--ease); will-change: transform; }
+.shot::after {
+  content: ""; position: absolute; inset: 0; z-index: 3; border-radius: var(--r); pointer-events: none; opacity: 0; transition: opacity .4s;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, .32), rgba(255, 255, 255, 0) 55%);
+}
+.shot.is-tilting { transition: transform .12s linear, box-shadow .6s var(--ease); box-shadow: 0 34px 60px -26px rgba(5, 10, 23, .55); z-index: 4; }
+.shot.is-tilting::after { opacity: 1; }
+.shot-btn { overflow: hidden; }
+
+/* Reels showcase */
+.reels { position: relative; overflow: hidden; padding: var(--section) 0; --bg: var(--night); background: var(--night); }
+.reels .wrap { position: relative; z-index: 1; }
+.aurora { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.aurora span { position: absolute; width: 46vw; height: 46vw; max-width: 640px; max-height: 640px; border-radius: 50%; filter: blur(90px); opacity: .55; }
+.aurora span:nth-child(1) { left: -8%; top: -10%; background: rgba(201, 162, 75, .30); animation: drift-a 16s ease-in-out infinite alternate; }
+.aurora span:nth-child(2) { right: -10%; bottom: -16%; background: rgba(60, 96, 200, .34); animation: drift-b 19s ease-in-out infinite alternate; }
+@keyframes drift-a { to { transform: translate3d(14vw, 10vh, 0) scale(1.2); } }
+@keyframes drift-b { to { transform: translate3d(-12vw, -12vh, 0) scale(1.15); } }
+.reels-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px; margin-bottom: clamp(30px, 4vw, 52px); }
+.reels-sub { max-width: 34ch; color: var(--fg-dim); margin-top: 18px; }
+.reel-nav { display: flex; gap: 10px; }
+.round-btn { width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); background: rgba(245, 242, 234, .04); color: var(--ivory); cursor: pointer; transition: background .35s var(--ease), color .35s, border-color .35s, transform .35s var(--ease); }
+.round-btn:hover { background: var(--gold); border-color: var(--gold); color: var(--night); transform: scale(1.08); }
+.round-btn svg { width: 22px; height: 22px; }
+.tabs { position: relative; display: inline-flex; padding: 6px; margin-bottom: clamp(26px, 3vw, 40px); border: 1px solid var(--line); border-radius: 999px; background: rgba(245, 242, 234, .05); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.tab { position: relative; z-index: 1; padding: 13px 24px; border: 0; border-radius: 999px; background: none; color: var(--fg-dim); font: 600 .95rem/1 var(--sans); cursor: pointer; transition: color .35s; }
+.tab[aria-selected="true"] { color: var(--night); }
+.tab-count { margin-left: 8px; font-weight: 500; opacity: .65; }
+.tab-pill { position: absolute; z-index: 0; top: 6px; bottom: 6px; left: 6px; width: 0; border-radius: 999px; background: var(--gold); transition: transform .55s var(--ease), width .55s var(--ease); }
+.reel-panel[hidden] { display: none; }
+.reel-track { display: flex; gap: clamp(14px, 2vw, 26px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 10px var(--gutter) 30px; margin: 0 calc(var(--gutter) * -1); }
+.reel-track::-webkit-scrollbar { display: none; }
+.reel { flex: 0 0 auto; width: min(330px, 78vw); scroll-snap-align: start; }
+.reel-panel.is-on .reel { animation: reel-in .8s var(--ease) both; animation-delay: calc(var(--i) * 90ms); }
+@keyframes reel-in { from { opacity: 0; transform: translate3d(40px, 18px, 0) scale(.96); } to { opacity: 1; transform: none; } }
+.reel-card {
+  position: relative; height: clamp(540px, 150vw, 600px); overflow: hidden; border-radius: 22px;
+  background: radial-gradient(circle at var(--mx, 30%) var(--my, 20%), #22346E, #0C1630 62%);
+  border: 1px solid var(--line); transition: transform .55s var(--ease), border-color .4s, box-shadow .55s var(--ease);
+}
+@media (hover: hover) { .reel-card:not(.is-live):hover { transform: translateY(-10px); border-color: rgba(201, 162, 75, .65); box-shadow: 0 36px 70px -34px rgba(201, 162, 75, .45); } }
+.reel-face { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 24px; border: 0; background: none; color: var(--ivory); text-align: left; cursor: pointer; font-family: var(--sans); }
+.reel-num { font-family: var(--serif); font-size: 7.4rem; line-height: .8; color: transparent; -webkit-text-stroke: 1px rgba(201, 162, 75, .6); transition: transform .7s var(--ease); }
+.reel-card:hover .reel-num { transform: translateY(-6px) scale(1.05); }
+.reel-play { position: relative; align-self: center; width: 84px; height: 84px; display: grid; place-items: center; border-radius: 50%; background: var(--gold); color: var(--night); transition: transform .5s var(--ease); }
+.reel-play svg { width: 30px; height: 30px; margin-left: 4px; }
+.reel-play::before, .reel-play::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--gold); animation: ring 2.6s ease-out infinite; }
+.reel-play::after { animation-delay: 1.3s; }
+@keyframes ring { 0% { opacity: .8; transform: scale(1); } 100% { opacity: 0; transform: scale(2); } }
+.reel-card:hover .reel-play { transform: scale(1.12); }
+.reel-meta { display: flex; flex-direction: column; gap: 6px; }
+.reel-tag { font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+.reel-acct { font-size: 1.05rem; color: var(--fg-dim); }
+.reel-card iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; animation: fade-in .5s ease both; }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.reel-open { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-size: .9rem; font-weight: 600; color: var(--fg-dim); transition: color .3s, gap .4s var(--ease); }
+.reel-open:hover { color: var(--gold); gap: 12px; }
+.reel-open svg { width: 16px; height: 16px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track, .aurora span, .reel-play::before, .reel-play::after { animation: none; }
+  .spot, .progress { display: none; }
+  .reel-panel.is-on .reel { animation: none; }
+}
+
 /* ---------- 18. Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -722,6 +815,9 @@ input:focus, textarea:focus { outline: none; }
 <div id="navSentinel" style="position:absolute;top:0;left:0;width:1px;height:80px;pointer-events:none" aria-hidden="true"></div>
 
 <!-- ===================== INTRO ===================== -->
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="spot" id="spot" aria-hidden="true"></div>
+
 <div class="intro-overlay" id="introOverlay">
   <div class="intro-stage">
     <svg class="intro-svg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -775,8 +871,9 @@ input:focus, textarea:focus { outline: none; }
       <a href="#about" class="nav-link" data-nav style="--i:2">About</a>
       <a href="#journey" class="nav-link" data-nav style="--i:3">Journey</a>
       <a href="#gallery" class="nav-link" data-nav style="--i:4">Gallery</a>
-      <a href="#social" class="nav-link" data-nav style="--i:5">Social</a>
-      <button class="nav-link nav-enquire" type="button" data-open-enquiry style="--i:6">Enquire</button>
+      <a href="#reels" class="nav-link" data-nav style="--i:5">Reels</a>
+      <a href="#social" class="nav-link" data-nav style="--i:6">Social</a>
+      <button class="nav-link nav-enquire" type="button" data-open-enquiry style="--i:7">Enquire</button>
       <span class="nav-indicator" aria-hidden="true"></span>
     </nav>
 
@@ -977,7 +1074,6 @@ input:focus, textarea:focus { outline: none; }
     </div>
 
     <div class="gallery-grid" id="galleryGrid" data-stagger>
-      <figure class="shot"><button class="shot-btn mask" type="button" aria-label="View photo larger"><img loading="lazy" decoding="async" src="https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/74def9de-5366-55ce-94c2-5dd0ca523c6d/1d61236b-b180-5344-9b3c-8cbaaf747b52.jpg" alt="Laxman Sivaramakrishnan with a microphone"></button></figure>
       <figure class="shot"><button class="shot-btn mask" type="button" aria-label="View photo larger"><img loading="lazy" decoding="async" src="https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/46c330a2-267f-5be0-93e3-ef9caed8bbd2/60e659bd-52ec-55d9-b3aa-9d18a700dcce.jpg" alt="Portrait of Laxman Sivaramakrishnan"></button></figure>
       <figure class="shot"><button class="shot-btn mask" type="button" aria-label="View photo larger"><img loading="lazy" decoding="async" src="https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/0ac30eaf-f907-56ac-8d33-48c1db011959/cf500f97-5ed4-53e9-ab03-ec5dc92f0d63.jpg" alt="Black-and-white portrait of Laxman Sivaramakrishnan"></button></figure>
       <figure class="shot"><button class="shot-btn mask" type="button" aria-label="View photo larger"><img loading="lazy" decoding="async" src="https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/d9014e08-f2ae-5014-80d3-24b35399c7a7/cf500f97-5ed4-53e9-ab03-ec5dc92f0d63.jpg" alt="Laxman Sivaramakrishnan bowling"></button></figure>
@@ -987,13 +1083,143 @@ input:focus, textarea:focus { outline: none; }
       <figure class="shot"><button class="shot-btn mask" type="button" aria-label="View photo larger"><img loading="lazy" decoding="async" src="https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e2399cb532dde9f3b80e98daf24a8420c1eeed0b025937ccd7e4e63ad3aa48a828953e3ace6aaa4d3669c712319929844ddfff35211212225815d5e46f9c5860c" alt="Laxman Sivaramakrishnan on a cricket field"></button></figure>
       <figure class="shot"><button class="shot-btn mask" type="button" aria-label="View photo larger"><img loading="lazy" decoding="async" src="https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e3ddf67f75af4100f6425efb9df8ce1acb4753d2ff45ac821b6c105221ccc6db3a55939723416c73f3bffaf06d50ee0c8148c4813c52ec306628b0691d5a9360a" alt="Laxman Sivaramakrishnan at a cricket event"></button></figure>
       <figure class="shot"><button class="shot-btn mask" type="button" aria-label="View photo larger"><img loading="lazy" decoding="async" src="https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6ebbb567279a133b921e4a116a2869fe129999c9d7af05407d51e0e6f9e13f5e833260c47e6519dbf469b31d051be0c9a0c29b907d95cba30c2e0573818f0db3aa" alt="Laxman Sivaramakrishnan holding a microphone"></button></figure>
-      <figure class="shot"><button class="shot-btn mask" type="button" aria-label="View photo larger"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="https://p.imgci.com/db/PICTURES/CMS/233800/233855.jpg" alt="Laxman Sivaramakrishnan with his wife Harini at home in Chennai"></button></figure>
       <figure class="shot"><button class="shot-btn mask" type="button" aria-label="View photo larger"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="https://p.imgci.com/db/PICTURES/CMS/233800/233857.jpg" alt="Sivaramakrishnan with Ravi Shastri at an ICC Cricket Committee meeting in 2013"></button></figure>
       <figure class="shot"><button class="shot-btn mask" type="button" aria-label="View photo larger"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="https://p.imgci.com/db/PICTURES/CMS/233800/233871.jpg" alt="Sivaramakrishnan took 12 for 181 against England in Bombay, 1984"></button></figure>
       <figure class="shot"><button class="shot-btn mask" type="button" aria-label="View photo larger"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="https://p.imgci.com/db/PICTURES/CMS/233800/233853.jpg" alt="Sivaramakrishnan for the Lavinia Duchess of Norfolk XI at Arundel, 1985"></button></figure>
       <figure class="shot"><button class="shot-btn mask" type="button" aria-label="View photo larger"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="https://p.imgci.com/db/PICTURES/CMS/233800/233859.jpg" alt="Sivaramakrishnan with fellow commentators at the IPL final of 2010"></button></figure>
       <figure class="shot"><button class="shot-btn mask" type="button" aria-label="View photo larger"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="https://p.imgci.com/db/PICTURES/CMS/235100/235143.jpg" alt="Sivaramakrishnan at the World Championship of Cricket, 1985"></button></figure>
       <figure class="shot"><button class="shot-btn mask" type="button" aria-label="View photo larger"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="https://p.imgci.com/db/PICTURES/CMS/233800/233869.jpg" alt="Sivaramakrishnan demonstrating his bowling action"></button></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MARQUEE ===================== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-group"><span>Leg Spin</span><i></i><span>Commentary</span><i></i><span>Coaching</span><i></i><span>Masterclass</span><i></i><span>Legacy</span><i></i><span>Technique</span><i></i></div>
+    <div class="marquee-group"><span>Leg Spin</span><i></i><span>Commentary</span><i></i><span>Coaching</span><i></i><span>Masterclass</span><i></i><span>Legacy</span><i></i><span>Technique</span><i></i></div>
+  </div>
+</div>
+
+<!-- ===================== REELS ===================== -->
+<section class="reels on-dark" id="reels">
+  <div class="aurora" aria-hidden="true"><span></span><span></span></div>
+  <div class="wrap">
+    <div class="reels-head">
+      <div>
+        <p class="eyebrow" data-reveal>Showcase</p>
+        <h2 class="display" data-split>Watch Him Teach</h2>
+        <p class="reels-sub" data-reveal>Tap any reel to play it right here.</p>
+      </div>
+      <div class="reel-nav" data-reveal>
+        <button class="round-btn" id="reelPrev" type="button" aria-label="Scroll reels left"><svg aria-hidden="true"><use href="#i-prev"/></svg></button>
+        <button class="round-btn" id="reelNext" type="button" aria-label="Scroll reels right"><svg aria-hidden="true"><use href="#i-next"/></svg></button>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Reel categories">
+      <span class="tab-pill" aria-hidden="true"></span>
+      <button class="tab" role="tab" id="tab-teach" aria-selected="true" aria-controls="panel-teach" type="button">Teaching students<span class="tab-count">5</span></button>
+      <button class="tab" role="tab" id="tab-testi" aria-selected="false" aria-controls="panel-testi" tabindex="-1" type="button">Testimonials<span class="tab-count">4</span></button>
+    </div>
+
+    <div class="reel-panel is-on" role="tabpanel" id="panel-teach" aria-labelledby="tab-teach">
+      <div class="reel-track">
+          <article class="reel" style="--i:0">
+            <div class="reel-card" data-embed="https://www.instagram.com/reel/Dba0vc2oMWs/embed/">
+              <button class="reel-face" type="button" aria-label="Play teaching reel 1 of 5">
+                <span class="reel-num" aria-hidden="true">01</span>
+                <span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15l13-7.5z"/></svg></span>
+                <span class="reel-meta"><span class="reel-tag">Teaching</span><span class="reel-acct">@rushcricketacademy</span></span>
+              </button>
+            </div>
+            <a class="reel-open" href="https://www.instagram.com/rushcricketacademy/reel/Dba0vc2oMWs/" target="_blank" rel="noopener">Open on Instagram<svg aria-hidden="true"><use href="#i-out"/></svg></a>
+          </article>
+          <article class="reel" style="--i:1">
+            <div class="reel-card" data-embed="https://www.instagram.com/reel/DakK2W_RKEX/embed/">
+              <button class="reel-face" type="button" aria-label="Play teaching reel 2 of 5">
+                <span class="reel-num" aria-hidden="true">02</span>
+                <span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15l13-7.5z"/></svg></span>
+                <span class="reel-meta"><span class="reel-tag">Teaching</span><span class="reel-acct">@sivaramakrishnanlaxman</span></span>
+              </button>
+            </div>
+            <a class="reel-open" href="https://www.instagram.com/sivaramakrishnanlaxman/reel/DakK2W_RKEX/" target="_blank" rel="noopener">Open on Instagram<svg aria-hidden="true"><use href="#i-out"/></svg></a>
+          </article>
+          <article class="reel" style="--i:2">
+            <div class="reel-card" data-embed="https://www.instagram.com/reel/Dcah-_eh9Fu/embed/">
+              <button class="reel-face" type="button" aria-label="Play teaching reel 3 of 5">
+                <span class="reel-num" aria-hidden="true">03</span>
+                <span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15l13-7.5z"/></svg></span>
+                <span class="reel-meta"><span class="reel-tag">Teaching</span><span class="reel-acct">@rushcricketacademy</span></span>
+              </button>
+            </div>
+            <a class="reel-open" href="https://www.instagram.com/rushcricketacademy/reel/Dcah-_eh9Fu/" target="_blank" rel="noopener">Open on Instagram<svg aria-hidden="true"><use href="#i-out"/></svg></a>
+          </article>
+          <article class="reel" style="--i:3">
+            <div class="reel-card" data-embed="https://www.instagram.com/reel/Dc6KXCdNT6a/embed/">
+              <button class="reel-face" type="button" aria-label="Play teaching reel 4 of 5">
+                <span class="reel-num" aria-hidden="true">04</span>
+                <span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15l13-7.5z"/></svg></span>
+                <span class="reel-meta"><span class="reel-tag">Teaching</span><span class="reel-acct">@eclat_sports</span></span>
+              </button>
+            </div>
+            <a class="reel-open" href="https://www.instagram.com/eclat_sports/reel/Dc6KXCdNT6a/" target="_blank" rel="noopener">Open on Instagram<svg aria-hidden="true"><use href="#i-out"/></svg></a>
+          </article>
+          <article class="reel" style="--i:4">
+            <div class="reel-card" data-embed="https://www.instagram.com/reel/Dc_OTp5hnJU/embed/">
+              <button class="reel-face" type="button" aria-label="Play teaching reel 5 of 5">
+                <span class="reel-num" aria-hidden="true">05</span>
+                <span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15l13-7.5z"/></svg></span>
+                <span class="reel-meta"><span class="reel-tag">Teaching</span><span class="reel-acct">@rushcricketacademy</span></span>
+              </button>
+            </div>
+            <a class="reel-open" href="https://www.instagram.com/rushcricketacademy/reel/Dc_OTp5hnJU/" target="_blank" rel="noopener">Open on Instagram<svg aria-hidden="true"><use href="#i-out"/></svg></a>
+          </article>
+      </div>
+    </div>
+    <div class="reel-panel" role="tabpanel" id="panel-testi" aria-labelledby="tab-testi" hidden>
+      <div class="reel-track">
+          <article class="reel" style="--i:0">
+            <div class="reel-card" data-embed="https://www.instagram.com/reel/DcBGoTpBGFh/embed/">
+              <button class="reel-face" type="button" aria-label="Play testimonial reel 1 of 4">
+                <span class="reel-num" aria-hidden="true">01</span>
+                <span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15l13-7.5z"/></svg></span>
+                <span class="reel-meta"><span class="reel-tag">Testimonial</span><span class="reel-acct">@rushcricketacademy</span></span>
+              </button>
+            </div>
+            <a class="reel-open" href="https://www.instagram.com/rushcricketacademy/reel/DcBGoTpBGFh/" target="_blank" rel="noopener">Open on Instagram<svg aria-hidden="true"><use href="#i-out"/></svg></a>
+          </article>
+          <article class="reel" style="--i:1">
+            <div class="reel-card" data-embed="https://www.instagram.com/reel/Db-h01Lhr9L/embed/">
+              <button class="reel-face" type="button" aria-label="Play testimonial reel 2 of 4">
+                <span class="reel-num" aria-hidden="true">02</span>
+                <span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15l13-7.5z"/></svg></span>
+                <span class="reel-meta"><span class="reel-tag">Testimonial</span><span class="reel-acct">@rushcricketacademy</span></span>
+              </button>
+            </div>
+            <a class="reel-open" href="https://www.instagram.com/rushcricketacademy/reel/Db-h01Lhr9L/" target="_blank" rel="noopener">Open on Instagram<svg aria-hidden="true"><use href="#i-out"/></svg></a>
+          </article>
+          <article class="reel" style="--i:2">
+            <div class="reel-card" data-embed="https://www.instagram.com/reel/DbvnNiMBBpR/embed/">
+              <button class="reel-face" type="button" aria-label="Play testimonial reel 3 of 4">
+                <span class="reel-num" aria-hidden="true">03</span>
+                <span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15l13-7.5z"/></svg></span>
+                <span class="reel-meta"><span class="reel-tag">Testimonial</span><span class="reel-acct">@rushcricketacademy</span></span>
+              </button>
+            </div>
+            <a class="reel-open" href="https://www.instagram.com/rushcricketacademy/reel/DbvnNiMBBpR/" target="_blank" rel="noopener">Open on Instagram<svg aria-hidden="true"><use href="#i-out"/></svg></a>
+          </article>
+          <article class="reel" style="--i:3">
+            <div class="reel-card" data-embed="https://www.instagram.com/reel/DcDP6bfhQMd/embed/">
+              <button class="reel-face" type="button" aria-label="Play testimonial reel 4 of 4">
+                <span class="reel-num" aria-hidden="true">04</span>
+                <span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15l13-7.5z"/></svg></span>
+                <span class="reel-meta"><span class="reel-tag">Testimonial</span><span class="reel-acct">@rushcricketacademy</span></span>
+              </button>
+            </div>
+            <a class="reel-open" href="https://www.instagram.com/rushcricketacademy/reel/DcDP6bfhQMd/" target="_blank" rel="noopener">Open on Instagram<svg aria-hidden="true"><use href="#i-out"/></svg></a>
+          </article>
+      </div>
     </div>
   </div>
 </section>
@@ -1262,7 +1488,7 @@ input:focus, textarea:focus { outline: none; }
     fontsReady.then(() => place(current));
 
     /* Active section */
-    const sections = ["home", "mastery", "about", "journey", "gallery", "social"].map((id) => document.getElementById(id)).filter(Boolean);
+    const sections = ["home", "mastery", "about", "journey", "gallery", "reels", "social"].map((id) => document.getElementById(id)).filter(Boolean);
     const spy = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
@@ -1476,6 +1702,132 @@ input:focus, textarea:focus { outline: none; }
     }, { passive: true });
   }
 
+
+  /* ---------- Scroll progress, cursor spotlight ---------- */
+  function initAmbient() {
+    const bar = $("#progress");
+    if (bar && !reduce) {
+      let ticking = false;
+      const upd = () => {
+        const max = html.scrollHeight - window.innerHeight;
+        bar.style.transform = "scaleX(" + (max > 0 ? clamp(window.scrollY / max, 0, 1) : 0) + ")";
+        ticking = false;
+      };
+      window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }, { passive: true });
+      upd();
+    }
+    const spot = $("#spot");
+    if (spot && !reduce && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      let x = 0, y = 0, raf = 0;
+      window.addEventListener("pointermove", (e) => {
+        x = e.clientX; y = e.clientY;
+        spot.classList.add("on");
+        if (!raf) raf = requestAnimationFrame(() => { spot.style.transform = "translate3d(" + x + "px," + y + "px,0)"; raf = 0; });
+      }, { passive: true });
+      document.addEventListener("mouseleave", () => spot.classList.remove("on"));
+    }
+  }
+
+  /* ---------- Tilt on gallery photos, magnetic buttons ---------- */
+  function initTilt() {
+    if (reduce || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    $$(".shot").forEach((el) => {
+      el.addEventListener("pointermove", (e) => {
+        const r = el.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+        el.classList.add("is-tilting");
+        el.style.setProperty("--mx", (px * 100) + "%");
+        el.style.setProperty("--my", (py * 100) + "%");
+        el.style.transform = "rotateX(" + ((0.5 - py) * 9).toFixed(2) + "deg) rotateY(" + ((px - 0.5) * 11).toFixed(2) + "deg) scale(1.03)";
+      });
+      el.addEventListener("pointerleave", () => { el.classList.remove("is-tilting"); el.style.transform = ""; });
+    });
+    $$(".reel-card").forEach((el) => {
+      el.addEventListener("pointermove", (e) => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty("--mx", ((e.clientX - r.left) / r.width * 100) + "%");
+        el.style.setProperty("--my", ((e.clientY - r.top) / r.height * 100) + "%");
+      });
+    });
+    $$(".btn, .nav-enquire, .round-btn").forEach((el) => {
+      el.addEventListener("pointermove", (e) => {
+        const r = el.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) * 0.28, dy = (e.clientY - (r.top + r.height / 2)) * 0.34;
+        el.style.transition = "none";
+        el.style.translate = dx.toFixed(1) + "px " + dy.toFixed(1) + "px";
+      });
+      el.addEventListener("pointerleave", () => {
+        el.style.transition = "translate .6s cubic-bezier(.22,1,.36,1)";
+        el.style.translate = "";
+        setTimeout(() => { el.style.transition = ""; }, 650);
+      });
+    });
+  }
+
+  /* ---------- Reels: tabs, click to play, arrows ---------- */
+  function initReels() {
+    const tablist = $(".tabs");
+    if (!tablist) return;
+    const tabs = $$(".tab", tablist), pill = $(".tab-pill", tablist), panels = $$(".reel-panel");
+    const place = (t) => {
+      pill.style.width = t.offsetWidth + "px";
+      pill.style.transform = "translateX(" + (t.offsetLeft - 6) + "px)";
+    };
+    const reset = () => {
+      $$(".reel-card.is-live").forEach((c) => {
+        const f = $("iframe", c); if (f) f.remove();
+        $(".reel-face", c).hidden = false;
+        c.classList.remove("is-live");
+      });
+    };
+    const select = (i) => {
+      reset();
+      tabs.forEach((t, k) => { t.setAttribute("aria-selected", String(k === i)); t.tabIndex = k === i ? 0 : -1; });
+      panels.forEach((p, k) => {
+        p.hidden = k !== i;
+        p.classList.remove("is-on");
+        if (k === i) { void p.offsetWidth; p.classList.add("is-on"); const tr = $(".reel-track", p); if (tr) tr.scrollLeft = 0; }
+      });
+      place(tabs[i]);
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => select(i));
+      t.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+        const n = (i + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+        select(n); tabs[n].focus();
+      });
+    });
+    place(tabs[0]);
+    window.addEventListener("resize", () => place(tabs.find((t) => t.getAttribute("aria-selected") === "true")));
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => place(tabs.find((t) => t.getAttribute("aria-selected") === "true")));
+
+    $$(".reel-card").forEach((card) => {
+      $(".reel-face", card).addEventListener("click", () => {
+        reset();
+        const f = document.createElement("iframe");
+        f.src = card.dataset.embed;
+        f.title = "Instagram reel";
+        f.loading = "lazy";
+        f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+        f.allowFullscreen = true;
+        f.setAttribute("scrolling", "no");
+        card.appendChild(f);
+        $(".reel-face", card).hidden = true;
+        card.classList.add("is-live");
+      });
+    });
+
+    const activeTrack = () => $(".reel-panel:not([hidden]) .reel-track");
+    const step = (dir) => {
+      const tr = activeTrack(); if (!tr) return;
+      const card = $(".reel", tr);
+      tr.scrollBy({ left: dir * (card ? card.offsetWidth + 24 : 340), behavior: reduce ? "auto" : "smooth" });
+    };
+    $("#reelPrev").addEventListener("click", () => step(-1));
+    $("#reelNext").addEventListener("click", () => step(1));
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     splitHeadings();
     initReveal();
@@ -1484,6 +1836,9 @@ input:focus, textarea:focus { outline: none; }
     initTimeline();
     initEnquiryModal();
     initLightbox();
+    initAmbient();
+    initTilt();
+    initReels();
     initIntro();
   });
 })();
