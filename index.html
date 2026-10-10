@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>LS Masterclass — Laxman Sivaramakrishnan</title>
 <meta name="theme-color" content="#050A17">
+<meta property="og:title" content="LS Masterclass: Spin coaching with Laxman Sivaramakrishnan">
+<meta property="og:description" content="Spin bowling coaching for Under 14, 16, 19, 23 and state level players. Send your video and he reviews it himself.">
+<meta property="og:type" content="website">
 <meta name="description" content="LS Masterclass — personal cricket masterclasses with former Indian leg-spinner Laxman Sivaramakrishnan.">
 <script>document.documentElement.classList.add("js");</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,6 +31,7 @@
   --ivory-2: #E9E4D7;
   --gold: #C9A24B;
   --gold-ink: #86651A;
+  --ball: #B3262D;
 
   --serif: "Instrument Serif", "Iowan Old Style", Georgia, "Times New Roman", serif;
   --sans: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -716,7 +720,7 @@ input:focus, textarea:focus { outline: none; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 .marquee-group { display: flex; align-items: center; flex: none; }
 .marquee-group span { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 3.4rem); line-height: 1; padding: 0 clamp(18px, 2.4vw, 34px); white-space: nowrap; }
-.marquee-group i { width: 12px; height: 12px; background: var(--night); transform: rotate(45deg); flex: none; }
+.marquee-group i { width: 12px; height: 12px; background: var(--ball); transform: rotate(45deg); flex: none; }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 /* Gallery: tilt and sheen */
@@ -767,11 +771,12 @@ input:focus, textarea:focus { outline: none; }
 .reel-card:hover .reel-num { transform: translateY(-6px) scale(1.05); }
 .reel-play { position: relative; align-self: center; width: 84px; height: 84px; display: grid; place-items: center; border-radius: 50%; background: var(--gold); color: var(--night); transition: transform .5s var(--ease); }
 .reel-play svg { width: 30px; height: 30px; margin-left: 4px; }
-.reel-play::before, .reel-play::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--gold); animation: ring 2.6s ease-out infinite; }
+.reel-play::before, .reel-play::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px solid #E0545B; animation: ring 2.6s ease-out infinite; }
 .reel-play::after { animation-delay: 1.3s; }
 @keyframes ring { 0% { opacity: .8; transform: scale(1); } 100% { opacity: 0; transform: scale(2); } }
 .reel-card:hover .reel-play { transform: scale(1.12); }
 .reel-meta { display: flex; flex-direction: column; gap: 6px; }
+.reel-tag::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 9px; border-radius: 50%; background: #E0545B; box-shadow: 0 0 10px #E0545B; }
 .reel-tag { font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
 .reel-acct { font-size: 1.05rem; color: var(--fg-dim); }
 .reel-card iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; animation: fade-in .5s ease both; }
@@ -785,6 +790,64 @@ input:focus, textarea:focus { outline: none; }
   .spot, .progress { display: none; }
   .reel-panel.is-on .reel { animation: none; }
 }
+
+
+/* ---------- Coaching levels and process ---------- */
+.levels { padding: var(--section) 0; }
+.levels-head { margin-bottom: clamp(36px, 5vw, 64px); }
+.levels-sub { max-width: 46ch; margin-top: 18px; color: var(--fg-dim); }
+.levels-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 20px); }
+.level {
+  position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; min-height: 230px; padding: 22px; overflow: hidden;
+  border: 1px solid var(--line); border-radius: 20px; background: rgba(11, 21, 48, .04); color: var(--ink); text-align: left; cursor: pointer; font-family: var(--sans);
+  transition: transform .55s var(--ease), color .4s, border-color .4s, box-shadow .55s var(--ease);
+}
+.level::before { content: ""; position: absolute; inset: 0; z-index: 0; background: var(--ink); transform: translateY(101%); transition: transform .6s var(--ease); }
+.level > * { position: relative; z-index: 1; }
+.level-big { font-family: var(--serif); font-size: clamp(3rem, 5vw, 4.6rem); line-height: .9; letter-spacing: -.02em; }
+.level-label { display: block; font-size: .95rem; font-weight: 600; }
+.level-go { display: inline-flex; align-items: center; gap: 8px; margin-top: 6px; font-size: .82rem; color: var(--fg-dim); transition: color .4s, gap .4s var(--ease); }
+.level-go svg { width: 16px; height: 16px; }
+.js .levels-grid .level { transition: opacity .9s var(--ease) var(--d, 0ms), transform .55s var(--ease), color .4s, border-color .4s, box-shadow .55s var(--ease); }
+.js .levels-grid .level:hover, .js .levels-grid .level:focus-visible, .level:hover, .level:focus-visible { transform: translateY(-10px); color: var(--ivory); border-color: var(--ink); box-shadow: 0 30px 50px -28px rgba(11, 21, 48, .6); }
+.level:hover::before, .level:focus-visible::before { transform: none; }
+.level:hover .level-big { color: var(--gold); }
+.level:hover .level-go { color: var(--gold); gap: 13px; }
+.level::after { content: ""; position: absolute; top: 18px; right: 18px; z-index: 1; width: 9px; height: 9px; border-radius: 50%; background: var(--ball); box-shadow: 0 0 0 0 rgba(179, 38, 45, .5); animation: ball-ping 2.8s ease-out infinite; }
+@keyframes ball-ping { 0% { box-shadow: 0 0 0 0 rgba(179, 38, 45, .45); } 70%, 100% { box-shadow: 0 0 0 12px rgba(179, 38, 45, 0); } }
+.steps { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(18px, 2.4vw, 36px); margin: clamp(56px, 7vw, 100px) 0 0; padding: 0; list-style: none; counter-reset: step; }
+.steps::before { content: ""; position: absolute; left: 0; right: 0; top: 19px; height: 1px; background: var(--line); }
+.step { position: relative; padding-top: 58px; counter-increment: step; }
+.step::before {
+  content: counter(step); position: absolute; left: 0; top: 0; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%;
+  background: var(--ivory); border: 1px solid var(--ink); font-family: var(--serif); font-size: 1.3rem; transition: background .4s, color .4s;
+}
+.step:hover::before { background: var(--gold); border-color: var(--gold); }
+.step:last-child::before { background: var(--ball); border-color: var(--ball); color: var(--ivory); }
+.step h3 { margin: 0 0 8px; font-family: var(--serif); font-weight: 400; font-size: 1.6rem; }
+.step p { margin: 0; max-width: 28ch; font-size: .95rem; color: var(--fg-dim); }
+@media (max-width: 960px) { .levels-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 40px; } .steps::before { display: none; } }
+@media (max-width: 560px) { .levels-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .level { min-height: 190px; } }
+
+/* Enquiry form extras */
+select { display: block; width: 100%; padding: 8px 0 10px; font-family: var(--sans); font-size: 1.02rem; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; cursor: pointer; }
+select:focus { outline: none; }
+.btn-row { display: flex; gap: 12px; margin-top: 12px; }
+.btn-row .btn { flex: 1; margin-top: 0; padding-left: 12px; padding-right: 12px; }
+.btn-ghost-dark { border-color: var(--ink); color: var(--ink); --sweep: var(--ink); }
+.btn-ghost-dark:hover { color: var(--ivory); }
+.btn-wa { margin-top: 0; background: #25D366; color: #062B16; --sweep: #1EBE5A; }
+.form-note { margin: 0 0 22px; font-size: .88rem; color: var(--fg-dim); }
+
+/* Floating WhatsApp button */
+.fab {
+  position: fixed; right: clamp(16px, 2.4vw, 30px); bottom: clamp(16px, 2.4vw, 30px); z-index: 70; width: 58px; height: 58px; display: grid; place-items: center;
+  border-radius: 50%; background: #25D366; color: #062B16; box-shadow: 0 14px 34px -10px rgba(37, 211, 102, .65);
+  opacity: 0; transform: translateY(24px) scale(.8); pointer-events: none; transition: opacity .5s var(--ease), transform .5s var(--ease);
+}
+.fab.show { opacity: 1; transform: none; pointer-events: auto; }
+.fab:hover { transform: scale(1.1) rotate(-6deg); }
+.fab svg { width: 28px; height: 28px; }
 
 /* ---------- 18. Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -815,6 +878,7 @@ input:focus, textarea:focus { outline: none; }
 <div id="navSentinel" style="position:absolute;top:0;left:0;width:1px;height:80px;pointer-events:none" aria-hidden="true"></div>
 
 <!-- ===================== INTRO ===================== -->
+<a class="fab" id="waFab" href="https://wa.me/" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.7-1.2A9 9 0 1 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path fill="currentColor" d="M9 8.5c.3 2.6 2.9 5.2 5.5 5.5l1.3-1.3-1.9-1-.9.7c-.8-.3-1.7-1.2-2-2l.7-.9-1-1.9z"/></svg></a>
 <div class="progress" id="progress" aria-hidden="true"></div>
 <div class="spot" id="spot" aria-hidden="true"></div>
 
@@ -1224,6 +1288,30 @@ input:focus, textarea:focus { outline: none; }
   </div>
 </section>
 
+<!-- ===================== LEVELS ===================== -->
+<section class="levels on-light" id="levels">
+  <div class="wrap">
+    <div class="levels-head">
+      <p class="eyebrow" data-reveal>Who he coaches</p>
+      <h2 class="display" data-split>Spinners at Every Level</h2>
+      <p class="levels-sub" data-reveal>From age group cricket to state level, he coaches spin bowlers. Pick your level to start your enquiry.</p>
+    </div>
+    <div class="levels-grid" data-stagger>
+      <button class="level" data-reveal type="button" data-open-enquiry data-level="Under 14"><span class="level-big">U14</span><span><span class="level-label">Under 14 spinners</span><span class="level-go">Enquire<svg aria-hidden="true"><use href="#i-arrow"/></svg></span></span></button>
+      <button class="level" data-reveal type="button" data-open-enquiry data-level="Under 16"><span class="level-big">U16</span><span><span class="level-label">Under 16 spinners</span><span class="level-go">Enquire<svg aria-hidden="true"><use href="#i-arrow"/></svg></span></span></button>
+      <button class="level" data-reveal type="button" data-open-enquiry data-level="Under 19"><span class="level-big">U19</span><span><span class="level-label">Under 19 spinners</span><span class="level-go">Enquire<svg aria-hidden="true"><use href="#i-arrow"/></svg></span></span></button>
+      <button class="level" data-reveal type="button" data-open-enquiry data-level="Under 23"><span class="level-big">U23</span><span><span class="level-label">Under 23 spinners</span><span class="level-go">Enquire<svg aria-hidden="true"><use href="#i-arrow"/></svg></span></span></button>
+      <button class="level" data-reveal type="button" data-open-enquiry data-level="State level"><span class="level-big">State</span><span><span class="level-label">State level spinners</span><span class="level-go">Enquire<svg aria-hidden="true"><use href="#i-arrow"/></svg></span></span></button>
+    </div>
+    <ol class="steps">
+      <li class="step" data-reveal><h3>Enquire</h3><p>Fill in the form with your details and your level.</p></li>
+      <li class="step" data-reveal style="--d:90ms"><h3>Send your video</h3><p>Share a Google Drive link to your bowling action.</p></li>
+      <li class="step" data-reveal style="--d:180ms"><h3>He reviews it</h3><p>He watches every video himself.</p></li>
+      <li class="step" data-reveal style="--d:270ms"><h3>He decides</h3><p>After the review, he makes a decision and we get back to you.</p></li>
+    </ol>
+  </div>
+</section>
+
 <!-- ===================== CTA ===================== -->
 <section class="cta on-dark">
   <span class="cta-mark" aria-hidden="true">LS</span>
@@ -1288,7 +1376,7 @@ input:focus, textarea:focus { outline: none; }
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <button class="modal-close" id="modalClose" type="button" aria-label="Close enquiry form">&times;</button>
     <h2 id="modalTitle">Get in touch!</h2>
-    <p class="modal-sub">Fill in your details and we will get back to you.</p>
+    <p class="modal-sub">Share your details and your bowling video. He reviews every video and then makes a decision.</p>
 
     <form id="enquiryForm" novalidate>
       <div class="form-row">
@@ -1302,6 +1390,13 @@ input:focus, textarea:focus { outline: none; }
       <div class="form-row">
         <label for="fldEmail">Your Email*</label>
         <input type="email" id="fldEmail" name="email" required autocomplete="email">
+      </div>
+      <div class="form-row">
+        <label for="fldLevel">Your level <span class="opt">(optional)</span></label>
+        <select id="fldLevel" name="level">
+          <option value="">Select a level</option>
+          <option>Under 14</option><option>Under 16</option><option>Under 19</option><option>Under 23</option><option>State level</option>
+        </select>
       </div>
       <div class="form-row">
         <label for="fldMessage">Message*</label>
@@ -1322,7 +1417,11 @@ input:focus, textarea:focus { outline: none; }
         </ul>
       </div>
       <p class="form-error" id="formError" role="alert"></p>
-      <button type="submit" class="btn btn-ink btn-block" id="submitBtn">Send Enquiry</button>
+      <button type="submit" class="btn btn-ink btn-block" id="submitBtn">Send by Email and WhatsApp</button>
+      <div class="btn-row">
+        <button type="button" class="btn btn-ghost-dark" id="emailBtn">Email only</button>
+        <button type="button" class="btn btn-wa" id="waBtn">WhatsApp only</button>
+      </div>
     </form>
   </div>
 </div>
@@ -1351,6 +1450,10 @@ input:focus, textarea:focus { outline: none; }
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
   const clamp = (n, a, b) => Math.min(Math.max(n, a), b);
+  // Add his WhatsApp number with country code and no plus sign, for example "919876543210".
+  // Left empty, WhatsApp opens with the message ready and lets the sender pick the chat.
+  const WHATSAPP_NUMBER = "919841449963";
+  const waLink = (text) => "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text);
 
   /* One scroll lock shared by the intro, menu, enquiry form and photo viewer */
   const locks = new Set();
@@ -1597,6 +1700,11 @@ input:focus, textarea:focus { outline: none; }
       else trapTab(e, dialog);
     });
 
+    let mode = "both";
+    $("#waBtn").addEventListener("click", () => { mode = "wa"; form.requestSubmit(); });
+    $("#emailBtn").addEventListener("click", () => { mode = "email"; form.requestSubmit(); });
+    $$("[data-level]").forEach((b) => b.addEventListener("click", () => { $("#fldLevel").value = b.dataset.level; }));
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       errorEl.style.color = "";
@@ -1610,11 +1718,19 @@ input:focus, textarea:focus { outline: none; }
       const submitBtn = $("#submitBtn");
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      if (!name || !phone || !email || !message) {
+      const waOnly = mode === "wa";
+      const emailOnly = mode === "email";
+      mode = "both";
+      const level = $("#fldLevel").value;
+      if (!name || !phone || !message || (!waOnly && !email)) {
         errorEl.textContent = "Please fill in every field marked *.";
         return;
       }
-      if (!emailPattern.test(email)) {
+      if (!video) {
+        errorEl.textContent = "Please add your Google Drive video link. He reviews every video before deciding.";
+        return;
+      }
+      if (!waOnly && !emailPattern.test(email)) {
         errorEl.textContent = "Please enter a valid email address.";
         return;
       }
@@ -1631,7 +1747,7 @@ input:focus, textarea:focus { outline: none; }
         errorEl.style.color = "#2E6B4F";
         errorEl.textContent = text;
         submitBtn.disabled = false;
-        submitBtn.textContent = "Send Enquiry";
+        submitBtn.textContent = "Send by Email and WhatsApp";
         setTimeout(() => {
           form.reset();
           closeModal();
@@ -1643,12 +1759,15 @@ input:focus, textarea:focus { outline: none; }
       const body =
         `Name: ${name}\n` +
         `Phone: ${phone}\n` +
-        `Email: ${email}\n\n` +
+        (email ? `Email: ${email}\n` : "") +
+        (level ? `Level: ${level}\n` : "") + "\n" +
         `Message:\n${message}` +
         (video ? `\n\nBowling video (Google Drive): ${video}` : "");
+      if (!emailOnly) window.open(waLink(body), "_blank", "noopener");
+      if (waOnly) { finish("Opening WhatsApp with your enquiry ready to send..."); return; }
       window.location.href =
         `mailto:${ENQUIRY_EMAIL}?subject=${encodeURIComponent("Enquiry")}&body=${encodeURIComponent(body)}`;
-      finish("Opening your email app with the enquiry ready to send...");
+      finish(emailOnly ? "Opening your email app with the enquiry ready to send..." : "Opening WhatsApp and your email app with the enquiry ready to send...");
     });
   }
 
@@ -1726,6 +1845,15 @@ input:focus, textarea:focus { outline: none; }
       }, { passive: true });
       document.addEventListener("mouseleave", () => spot.classList.remove("on"));
     }
+  }
+
+  function initFab() {
+    const fab = $("#waFab");
+    if (!fab) return;
+    fab.href = waLink("Hi, I would like to know about the spin coaching.");
+    const upd = () => fab.classList.toggle("show", window.scrollY > window.innerHeight * 0.7);
+    window.addEventListener("scroll", upd, { passive: true });
+    upd();
   }
 
   /* ---------- Tilt on gallery photos, magnetic buttons ---------- */
@@ -1845,6 +1973,7 @@ input:focus, textarea:focus { outline: none; }
     initEnquiryModal();
     initLightbox();
     initAmbient();
+    initFab();
     initTilt();
     initReels();
     initIntro();
